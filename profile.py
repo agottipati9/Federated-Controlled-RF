@@ -60,7 +60,7 @@ To verify the UE connections and to prevent the UEs from entering RRC IDLE, run 
 
 **NOTE:** These instructions assume you have opted for the optional file mount on the ```/mydata``` directory.
 
-To finish installing the FL environment, follow the following instructions for all nodes **EXCEPT** the `EPC`.
+To finish installing the FL environment, follow the following instructions for all nodes.
 
 To install Miniconda, do:
 
@@ -194,7 +194,7 @@ hacklan.best_effort = True
 
 # Add Optional Blockstore
 if params.tempFileSystemMax:
-    for node in [(enb1, 'enb1'), (rue1, 'rue1'), (rue2, 'rue2')]:
+    for node in [(epc, 'epc'), (enb1, 'enb'), (rue1, 'rue1'), (rue2, 'rue2')]:
         bs = node[0].Blockstore(node[1] + "-bs", params.tempFileSystemMount)
         bs.size = "0GB"
         bs.placement = "any"
