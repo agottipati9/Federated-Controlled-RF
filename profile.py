@@ -12,7 +12,7 @@ A simple Federated setup deployed over the srsLTE LTE framework. The setup inclu
 This profile utilizes IBM's enterprise Federated framework. 
 """
 tourInstructions = """
-# LTE Setup Instructions
+## LTE Setup Instructions
 
 After booting is complete (all nodes have a Startup status of **Finished**), run the following commands
 to finish setting up the experiment:
@@ -45,7 +45,7 @@ Log into the `epc` node and do:
     * OP: 01020304050607080910111213141517
 
 
-# IBM Instructions
+## IBM Instructions
 
 **NOTE:** These instructions assume you have opted for the optional file mount on the ```/mydata``` directory.
 
@@ -64,6 +64,19 @@ To install IBM-FL, do:
     sudo bash -i /local/repository/bin/install_ibmfl.sh
     
 This will install all dependencies in the **tf2** conda environment.
+
+## Running the LTE Network
+After configuring the LTE network, run the following commands in order:
+
+    On epc: sudo /opt/nextepc/install/bin/nextepc-epcd
+    On enb: sudo srsenb
+    On ue1: sudo srsue
+    On ue2: sudo srsue
+    
+To verify the UE connections and to prevent the UEs from entering RRC IDLE, run the following command in a separate shell on both UEs:
+
+    ping -I tun_srsue 8.8.8.8
+    
     
 ## Verify the install
 
