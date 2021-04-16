@@ -52,7 +52,9 @@ IBM-FL and Miniconda have been installed in the ```/mydata``` directory.
 
 # Globals
 class GLOBALS(object):
-    LEAF_INSTALL_SCRIPT = "/usr/bin/sudo chmod +x /local/repository/bin/leaf_install.sh && /usr/bin/sudo /local/repository/bin/leaf_install.sh"
+    SRS_ENB_IMG = "urn:publicid:IDN+emulab.net+image+PowderProfiles:U18LL-SRSLTE:1"
+    EPC_IMG = "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD"
+    NUC_HWTYPE = "nuc5300"
 
 # Create a portal context, needed to defined parameters
 pc = portal.Context()
@@ -60,48 +62,22 @@ pc = portal.Context()
 # Create a Request object to start building the RSpec.
 request = pc.makeRequestRSpec()
 
-# Variable number of nodes.
-pc.defineParameter("nodeCount", "Number of Clients", portal.ParameterType.INTEGER, 0,
-                   longDescription="Leave as 0 for just the server. " + 
-                   "NOTE: As of now, this is limited to 3 client nodes.")
+pc.defineParameter("FIXED_UE1", "Bind to a specific NUC UE",
+                   portal.ParameterType.STRING, "nuc1", advanced=True,
+                   longDescription="Input the name of a PhantomNet UE node to allocate (e.g., 'nuc1' or 'nuc3').  Leave blank to "
+                                   "let the mapping algorithm choose.")
 
-# Choose your framework.
-frameList = [
-    ('IBM-FL', 'IBM-FL')]
+pc.defineParameter("FIXED_UE2", "Bind to a specific NUC UE",
+                   portal.ParameterType.STRING, "nuc3", advanced=True,
+                   longDescription="Input the name of a PhantomNet UE node to allocate (e.g., 'nuc1' or 'nuc3').  Leave blank to "
+                                   "let the mapping algorithm choose.")
 
-pc.defineParameter("framework", "Select a Framework",
-                   portal.ParameterType.STRING,
-                   frameList[0], frameList,
-                   longDescription="Pick your favorite framework.")
-
-# Pick your OS.
-imageList = [
-    ('urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD', 'UBUNTU 18.04'),
-    ('urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU16-64-STD', 'UBUNTU 16.04')]
-
-pc.defineParameter("osImage", "Select OS image",
-                   portal.ParameterType.IMAGE,
-                   imageList[0], imageList,
-                   longDescription="Pick your favorite image.")
-
-# Optional physical type for all nodes.
-pc.defineParameter("phystype",  "Optional physical node type",
-                   portal.ParameterType.STRING, "",
-                   longDescription="Specify a physical node type (pc3000,d430,d710,etc) " +
-                   "instead of letting the resource mapper choose for you.")
-
-# Optionally create XEN VMs instead of allocating bare metal nodes.
-pc.defineParameter("useVMs",  "Use VMs",
-                   portal.ParameterType.BOOLEAN, False,
-                   longDescription="Create XEN VMs instead of allocating bare metal nodes.")
-
-# Optional link speed, normally the resource mapper will choose for you based on node availability
-# pc.defineParameter("linkSpeed", "Link Speed",portal.ParameterType.INTEGER, 0,
-#                   [(0,"Any"),(100000,"100Mb/s"),(1000000,"1Gb/s"),(10000000,"10Gb/s"),(25000000,"25Gb/s"),(100000000,"100Gb/s")],
-#                   advanced=True,
-#                   longDescription="A specific link speed to use for your lan. Normally the resource " +
-#                   "mapper will choose for you based on node availability and the optional physical type.")
-                   
+pc.defineParameter("FIXED_ENB1", "Bind to a specific eNodeB",
+                   portal.ParameterType.STRING, "nuc4", advanced=True,
+                   longDescription="Input the name of a PhantomNet eNodeB device to allocate (e.g., 'nuc2' or 'nuc4').  Leave "
+                                   "blank to let the mapping algorithm choose.  If you bind both UE and eNodeB "
+                                   "devices, mapping will fail unless there is path between them via the attenuator "
+                                   "matrix.")
 
 # # Optional ephemeral blockstore
 # pc.defineParameter("tempFileSystemSize", "Temporary Filesystem Size",
@@ -128,61 +104,55 @@ pc.defineParameter("tempFileSystemMount", "Temporary Filesystem Mount Point",
 # Retrieve the values the user specifies during instantiation.
 params = pc.bindParameters()
 
-# Check parameter validity.
-numClients = params.nodeCount if params.nodeCount >= 1  else 0
-
 # if params.tempFileSystemSize < 0 or params.tempFileSystemSize > 200:
 #     pc.reportError(portal.ParameterError("Please specify a size greater then zero and " +
 #                                          "less then 200GB", ["nodeCount"]))
 pc.verifyParameters()
 
-# Create link/lan.
-if numClients == 1:
-    lan = request.Link()
-elif numClients > 1:
-    lan = request.LAN()
-    lan.best_effort = True
-# if params.bestEffort:
-#     lan.best_effort = True
-# elif params.linkSpeed > 0:
-#     lan.bandwidth = params.linkSpeed
-# pass
+# Create link
+hacklan = request.Link("s1-lan")
 
-# Process nodes, adding to link or lan.
-numClients = numClients if numClients < 4 else 3
-for i in range(numClients + 1):
-    # Create a node and add it to the request
-    if params.useVMs:
-        name = "client-vm" + str(i) if i > 0 else "server-vm"
-        node = request.XenVM(name)
-    else:
-        name = "client" + str(i) if i > 0 else "server"
-        node = request.RawPC(name)
-    if params.osImage:
-        node.disk_image = params.osImage
-    # Add to lan
-    if numClients > 0:
-        iface = node.addInterface("eth1")
-        lan.addInterface(iface)
-    # Optional hardware type.
-    if params.phystype != "":
-        node.hardware_type = params.phystype
-    # Optional Blockstore
-    if params.tempFileSystemMax:
-        bs = node.Blockstore(name + "-bs", params.tempFileSystemMount)
+# Add a NUC eNB node
+enb1 = request.RawPC("enb")
+enb1.component_id = params.FIXED_ENB1
+enb1.hardware_type = GLOBALS.NUC_HWTYPE
+enb1.disk_image = GLOBALS.SRS_ENB_IMG
+enb1.Desire("rf-controlled", 1)
+enb1_s1_if = enb1.addInterface("enb1_s1if")
+
+# Add NUC UE1 node
+rue1 = request.RawPC("ue1")
+rue1.component_id = params.FIXED_UE1
+rue1.hardware_type = GLOBALS.NUC_HWTYPE
+rue1.disk_image = GLOBALS.SRS_ENB_IMG
+rue1.Desire("rf-controlled", 1)
+
+# Add NUC UE2 node
+rue1 = request.RawPC("ue2")
+rue1.component_id = params.FIXED_UE2
+rue1.hardware_type = GLOBALS.NUC_HWTYPE
+rue1.disk_image = GLOBALS.SRS_ENB_IMG
+rue1.Desire("rf-controlled", 1)
+
+# Add OAI EPC (HSS, MME, SPGW) node.
+epc = request.RawPC("epc")
+epc.disk_image = GLOBALS.EPC_IMG
+epc.addService(rspec.Execute(shell="bash", command=GLOBALS.NEXTEPC_INSTALL_SCRIPT))
+epc_s1_if = epc.addInterface("epc_s1if")
+
+# Add EPC and ENB to LAN
+hacklan.addInterface(epc_s1_if)
+hacklan.addInterface(enb1_s1_if)
+hacklan.link_multiplexing = True
+hacklan.vlan_tagging = True
+hacklan.best_effort = True
+
+# Add Optional Blockstore
+if params.tempFileSystemMax:
+    for node in [(enb1, 'enb1'), (rue1, 'rue1'), (rue2, 'rue2')]:
+        bs = node[0].Blockstore(node[1] + "-bs", params.tempFileSystemMount)
         bs.size = "0GB"
         bs.placement = "any"
-        
-    # Optional Blockstore
-    # if params.tempFileSystemSize > 0 or params.tempFileSystemMax:
-    #     bs = node.Blockstore(name + "-bs", params.tempFileSystemMount)
-    #     if params.tempFileSystemMax:
-    #         bs.size = "0GB"
-    #     else:
-    #         bs.size = str(params.tempFileSystemSize) + "GB"
-    #         pass
-    #     bs.placement = "any"
-    #     pass
 
 tour = IG.Tour()
 tour.Description(IG.Tour.MARKDOWN, tourDescription)
