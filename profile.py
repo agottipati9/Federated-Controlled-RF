@@ -8,11 +8,41 @@ import geni.rspec.emulab as emulab
 import geni.rspec.igext as IG
 
 tourDescription = """
-A simple Federated setup with a single server node and a variable number of client nodes connected in a LAN.
-This profile utilizes IBM's enterprise Federated framework. You may also optionally pick the 
-specific hardware type and Ubuntu image (default Ubuntu 18.04) for all the nodes in the lan. 
+A simple Federated setup deployed over the srsLTE LTE framework. The setup includes two srsUE UEs and a single srsLTE eNodeB.
+This profile utilizes IBM's enterprise Federated framework. 
 """
 tourInstructions = """
+# LTE Setup Instructions
+
+After booting is complete (all nodes have a Startup status of **Finished**), run the following commands
+to finish setting up the experiment:
+
+To configure the LTE setup, log into the corresponding nodes and run the following commands:
+
+    On enb: sudo cp /local/repository/etc/srsLTE/enb.conf /etc/srslte/enb.conf
+    On ue1: sudo cp /local/repository/etc/srsLTE/ue1.conf /etc/srslte/ue.conf
+    On ue2: sudo cp /local/repository/etc/srsLTE/ue2.conf /etc/srslte/ue.conf
+    
+To configure the HSS, do the following:
+
+Log into the `epc` node and do:
+   Navigate to this [guide](https://gitlab.flux.utah.edu/powderrenewpublic/mww2019/blob/master/4G-LTE.md) and follow the instructions
+   in the **Add the simulated UE subscriber information to the HSS database** section to add the UE subscriber information. Enter in the following:
+   **UE1**
+    
+    * IMSI: 998981234560300
+    * Key: 00112233445566778899aabbccddeeff
+    * OP_Type: OP
+    * OP: 01020304050607080910111213141516
+    
+   **UE2**
+    
+    * IMSI: 998981234560301
+    * Key: 00112233445566778899aabbccddeegg
+    * OP_Type: OP
+    * OP: 01020304050607080910111213141517
+
+
 # IBM Instructions
 
 **NOTE:** These instructions assume you have opted for the optional file mount on the ```/mydata``` directory.
