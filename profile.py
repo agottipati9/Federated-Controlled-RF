@@ -138,7 +138,7 @@ rue1.Desire("rf-controlled", 1)
 # Add OAI EPC (HSS, MME, SPGW) node.
 epc = request.RawPC("epc")
 epc.disk_image = GLOBALS.EPC_IMG
-epc.addService(rspec.Execute(shell="bash", command=GLOBALS.NEXTEPC_INSTALL_SCRIPT))
+epc.addService(pg.Execute(shell="bash", command=GLOBALS.NEXTEPC_INSTALL_SCRIPT))
 epc_s1_if = epc.addInterface("epc_s1if")
 
 # Add EPC and ENB to LAN
