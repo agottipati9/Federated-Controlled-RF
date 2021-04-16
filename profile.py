@@ -84,7 +84,7 @@ You may also find the tutorials [here](https://github.com/IBM/federated-learning
     conda activate tf2
     cd / && jupyter notebook --allow-root --no-browser
 
-Now point your browser at **pcXXX.emulab.net:8888/?token=JUPYTER_TOKEN**, where **pcXXX** is the emulab compute node and **JUPYTER_TOKEN** is the Jupyter authentication token.
+Now point your browser at **nucX.emulab.net:8888/?token=JUPYTER_TOKEN**, where **nucX** is the emulab compute node and **JUPYTER_TOKEN** is the Jupyter authentication token.
 
 **NOTES:** To utilize the Conda environment, you must be running the bash shell with elevated privileges i.e. **sudo bash**.
 Find the IBM documentation [here](https://ibmfl-api-docs.mybluemix.net/).
