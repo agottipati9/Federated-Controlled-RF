@@ -30,7 +30,7 @@ Log into the `epc` node and do:
     cd /opt/nextepc/webui
     sudo npm run dev
     
-Point your browser at http://pcXXX.emulab.net:3000, where pcXXX is the `EPC` node from the experiment.
+Point your browser at **http://pcXXX.emulab.net:3000**, where **pcXXX** is the `epc` node from the experiment.
 
 **NOTE:** The host information can be found in the list view tab on the POWDER Portal interface view for your experiment.
 
@@ -50,7 +50,7 @@ Enter in the following UE subscriber information:
     * OP_Type: OP
     * OP: 01020304050607080910111213141517
     
-For troubleshooting, please refer to the **Add the simulated UE subscriber information to the HSS database** section in this guide [guide](https://gitlab.flux.utah.edu/powderrenewpublic/mww2019/blob/master/4G-LTE.md).
+For troubleshooting, please refer to the **Add the simulated UE subscriber information to the HSS database** section in this [guide](https://gitlab.flux.utah.edu/powderrenewpublic/mww2019/blob/master/4G-LTE.md).
 
 ## Running the LTE Network
 After configuring the LTE network, run the following commands in order:
