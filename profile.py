@@ -45,14 +45,14 @@ Enter in the following UE subscriber information:
     
     * IMSI: 001011234560300
     * Key: 00112233445566778899aabbccddeeff
-    * OP_Type: OP
+    * USIM Type: OP
     * OP: 01020304050607080910111213141516
     
  **UE2**
     
     * IMSI: 001011234560301
     * Key: 00112233445566778899aabbccddeeee
-    * OP_Type: OP
+    * USIM Type: OP
     * OP: 01020304050607080910111213141517
     
 For troubleshooting, please refer to the **Add the simulated UE subscriber information to the HSS database** section in this [guide](https://gitlab.flux.utah.edu/powderrenewpublic/mww2019/blob/master/4G-LTE.md).
