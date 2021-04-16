@@ -44,13 +44,23 @@ Log into the `epc` node and do:
     * OP_Type: OP
     * OP: 01020304050607080910111213141517
 
+## Running the LTE Network
+After configuring the LTE network, run the following commands in order:
 
-## IBM Instructions
+    On epc: sudo /opt/nextepc/install/bin/nextepc-epcd
+    On enb: sudo srsenb
+    On ue1: sudo srsue
+    On ue2: sudo srsue
+    
+To verify the UE connections and to prevent the UEs from entering RRC IDLE, run the following command in a separate shell on both UEs:
+
+    ping -I tun_srsue 8.8.8.8
+
+## IBM-FL Setup Instructions
 
 **NOTE:** These instructions assume you have opted for the optional file mount on the ```/mydata``` directory.
 
-## Finishing the Install
-To finish installing the IBM environment, follow the following instructions for all nodes **EXCEPT** the `EPC`.
+To finish installing the FL environment, follow the following instructions for all nodes **EXCEPT** the `EPC`.
 
 To install Miniconda, do:
 
@@ -63,22 +73,9 @@ To install IBM-FL, do:
     sudo bash
     sudo bash -i /local/repository/bin/install_ibmfl.sh
     
-This will install all dependencies in the **tf2** conda environment.
-
-## Running the LTE Network
-After configuring the LTE network, run the following commands in order:
-
-    On epc: sudo /opt/nextepc/install/bin/nextepc-epcd
-    On enb: sudo srsenb
-    On ue1: sudo srsue
-    On ue2: sudo srsue
+This will install all dependencies in the **tf2** conda environment.    
     
-To verify the UE connections and to prevent the UEs from entering RRC IDLE, run the following command in a separate shell on both UEs:
-
-    ping -I tun_srsue 8.8.8.8
-    
-    
-## Verify the install
+## Training the FL Model
 
 To excute the example code in ```/mydata/federated-learning-lib/Notebooks```, run the following commands.
 You may also find the tutorials [here](https://github.com/IBM/federated-learning-lib) helpful as well.
