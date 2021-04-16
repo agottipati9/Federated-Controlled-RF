@@ -129,11 +129,11 @@ rue1.disk_image = GLOBALS.SRS_ENB_IMG
 rue1.Desire("rf-controlled", 1)
 
 # Add NUC UE2 node
-rue1 = request.RawPC("ue2")
-rue1.component_id = params.FIXED_UE2
-rue1.hardware_type = GLOBALS.NUC_HWTYPE
-rue1.disk_image = GLOBALS.SRS_ENB_IMG
-rue1.Desire("rf-controlled", 1)
+rue2 = request.RawPC("ue2")
+rue2.component_id = params.FIXED_UE2
+rue2.hardware_type = GLOBALS.NUC_HWTYPE
+rue2.disk_image = GLOBALS.SRS_ENB_IMG
+rue2.Desire("rf-controlled", 1)
 
 # Add OAI EPC (HSS, MME, SPGW) node.
 epc = request.RawPC("epc")
