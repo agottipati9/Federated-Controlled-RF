@@ -34,6 +34,11 @@ Point your browser at **http://pcXXX.emulab.net:3000**, where **pcXXX** is the `
 
 **NOTE:** The host information can be found in the list view tab on the POWDER Portal interface view for your experiment.
 
+Log in to the HSS with the following credentials:
+
+    Username: admin
+    Password: 1423
+
 Enter in the following UE subscriber information:
    
 **UE1**
