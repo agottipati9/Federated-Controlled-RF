@@ -31,7 +31,7 @@ Log into the `epc` node and do:
     sudo npm run dev
     
 Point your browser at http://pcXXX.emulab.net:3000, where pcXXX is the `EPC` node from the experiment.
-<br>
+
 **NOTE:** The host information can be found in the list view tab on the POWDER Portal interface view for your experiment.
 
 Enter in the following UE subscriber information:
