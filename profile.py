@@ -26,8 +26,10 @@ To configure the LTE setup, log into the corresponding nodes and run the followi
 To configure the HSS, do the following:
 
 Log into the `epc` node and do:
+
    Navigate to this [guide](https://gitlab.flux.utah.edu/powderrenewpublic/mww2019/blob/master/4G-LTE.md) and follow the instructions
    in the **Add the simulated UE subscriber information to the HSS database** section to add the UE subscriber information. Enter in the following:
+   
    **UE1**
     
     * IMSI: 998981234560300
@@ -77,6 +79,8 @@ Now point your browser at **pcXXX.emulab.net:8888/?token=JUPYTER_TOKEN**, where 
 **NOTES:** To utilize the Conda environment, you must be running the bash shell with elevated privileges i.e. **sudo bash**.
 Find the IBM documentation [here](https://ibmfl-api-docs.mybluemix.net/).
 IBM-FL and Miniconda have been installed in the ```/mydata``` directory.
+
+Add some stuff about pinging from ue and running lte
 
 """
 
