@@ -27,4 +27,6 @@ echo "Installed Jupyter Notebook"
 echo "Copying notebook and DP Implementation..."
 cp /local/repository/etc/keras_fl_model.py /mydata/conda/envs/tf2/lib/python3.6/site-packages/ibmfl/model/keras_fl_model.py
 cp /local/repository/etc/keras_classifier_aggregator.ipynb /mydata/federated-learning-lib/Notebooks/keras_classifier/keras_classifier_aggregator.ipynb
+cp /local/repository/etc/keras_classifier_p0.ipynb /mydata/federated-learning-lib/Notebooks/keras_classifier/keras_classifier_p0.ipynb
+cp /local/repository/etc/keras_classifier_p1.ipynb /mydata/federated-learning-lib/Notebooks/keras_classifier/keras_classifier_p1.ipynb
 echo "Done."
