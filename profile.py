@@ -40,7 +40,7 @@ Log into the `epc` node and do:
    **UE2**
     
     * IMSI: 998981234560301
-    * Key: 00112233445566778899aabbccddeegg
+    * Key: 00112233445566778899aabbccddeeee
     * OP_Type: OP
     * OP: 01020304050607080910111213141517
 
