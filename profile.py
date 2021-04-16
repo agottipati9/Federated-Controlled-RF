@@ -48,7 +48,7 @@ Log into the `epc` node and do:
 **NOTE:** These instructions assume you have opted for the optional file mount on the ```/mydata``` directory.
 
 ## Finishing the Install
-To finish installing the IBM environment, follow the following instructions for **ALL** nodes.
+To finish installing the IBM environment, follow the following instructions for all nodes **EXCEPT** the `EPC`.
 
 To install Miniconda, do:
 
