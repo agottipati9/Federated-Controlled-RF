@@ -90,14 +90,16 @@ This will install all dependencies in the **tf2** conda environment.
     
 ## Training the FL Model
 
-To excute the example code in ```/mydata/federated-learning-lib/Notebooks```, run the following commands.
-You may also find the tutorials [here](https://github.com/IBM/federated-learning-lib) helpful as well.
+To excute the example code in ```/mydata/federated-learning-lib/Notebooks/keras_classifier```, run the following commands on the `epc`, `ue1`, and `ue2` nodes.
 
     sudo bash
     conda activate tf2
     cd / && jupyter notebook --allow-root --no-browser
 
 Now point your browser at **XXXX.emulab.net:8888/?token=JUPYTER_TOKEN**, where **XXXX** is the emulab compute node and **JUPYTER_TOKEN** is the Jupyter authentication token.
+
+Navigate to ```/mydata/federated-learning-lib/Notebooks/keras_classifier```. The aggregator corresponds to the `epc` node, while p0 corresponds to `ue1` and p1 corresponds to `ue2`. 
+Please follow the directions in the notebook to train and evaluate the Differentially Private Keras Classifier. You may also find the tutorials [here](https://github.com/IBM/federated-learning-lib) helpful as well.
 
 **NOTES:** To utilize the Conda environment, you must be running the bash shell with elevated privileges i.e. **sudo bash**.
 Find the IBM documentation [here](https://ibmfl-api-docs.mybluemix.net/).
@@ -106,8 +108,6 @@ IBM-FL and Miniconda have been installed in the ```/mydata``` directory.
 ## Troubleshooting
 
 If you experience Radio-Link failure, try adjusting the transmit/receive gain on the eNodeB and the respective UE.
-
-Add some stuff about pinging from ue and running lte
 
 """
 
