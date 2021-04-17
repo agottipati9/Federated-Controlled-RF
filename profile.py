@@ -103,6 +103,10 @@ Now point your browser at **XXXX.emulab.net:8888/?token=JUPYTER_TOKEN**, where *
 Find the IBM documentation [here](https://ibmfl-api-docs.mybluemix.net/).
 IBM-FL and Miniconda have been installed in the ```/mydata``` directory.
 
+## Troubleshooting
+
+If you experience Radio-Link failure, try adjusting the transmit/receive gain on the eNodeB and the respective UE.
+
 Add some stuff about pinging from ue and running lte
 
 """
